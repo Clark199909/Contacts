@@ -60,11 +60,11 @@ def get_all_addresses_of_a_student(uni):
 # Zhengkai
 @app.route("/api/contacts/<uni>/all_phones", methods=['GET'])
 def get_all_phones_of_a_student(uni):
-    pass
+    phones = PhoneResource.search_all_phones_of_a_student(uni)
 
-
-def get_all_phones_of_a_student_helper(uni, data):
-    pass
+    response = jsonify(phones)
+    response.status_code = 200
+    return response
 
 
 @app.route("/api/contacts/<uni>/all_emails", methods=['GET'])
@@ -77,7 +77,7 @@ def get_all_contacts_of_a_student(uni):
     pass
 
 
-@app.route("/api/contacts/all_phones", methods=['GET'])
+@app.route("/api/contacts/all_addresses", methods=['GET'])
 def get_all_addresses_of_all_students():
     pass
 
@@ -85,7 +85,11 @@ def get_all_addresses_of_all_students():
 # Zhengkai
 @app.route("/api/contacts/all_phones", methods=['GET'])
 def get_all_phones_of_all_students():
-    pass
+    phones = PhoneResource.search_all_phones_of_all_students()
+
+    response = jsonify(phones)
+    response.status_code = 200
+    return response
 
 
 @app.route("/api/contacts/all_emails", methods=['GET'])
