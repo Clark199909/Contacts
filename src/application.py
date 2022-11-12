@@ -52,19 +52,18 @@ def add_new_email(uni):
     pass
 
 
-# Zhengkai
 @app.route("/api/contacts/<uni>/all_addresses", methods=['GET'])
 def get_all_addresses_of_a_student(uni):
-    data = request.json
-    return get_all_addresses_of_a_student_helper(uni, data)
-
-
-def get_all_addresses_of_a_student_helper(uni, data):
     pass
 
 
+# Zhengkai
 @app.route("/api/contacts/<uni>/all_phones", methods=['GET'])
 def get_all_phones_of_a_student(uni):
+    pass
+
+
+def get_all_phones_of_a_student_helper(uni, data):
     pass
 
 
@@ -78,12 +77,12 @@ def get_all_contacts_of_a_student(uni):
     pass
 
 
-# Zhengkai
 @app.route("/api/contacts/all_phones", methods=['GET'])
 def get_all_addresses_of_all_students():
     pass
 
 
+# Zhengkai
 @app.route("/api/contacts/all_phones", methods=['GET'])
 def get_all_phones_of_all_students():
     pass
