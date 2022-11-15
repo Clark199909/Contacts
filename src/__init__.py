@@ -8,7 +8,7 @@ app = Flask(__name__,
             static_url_path='/',
             static_folder='static/class-ui/',
             template_folder='web/templates')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:20176098wd@localhost/contacts'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:root@localhost/contacts'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
