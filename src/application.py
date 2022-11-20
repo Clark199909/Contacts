@@ -9,6 +9,16 @@ from src.resources.email_resource import EmailResource
 
 @app.route("/api/contacts/<uni>/new_address", methods=['POST'])
 def add_new_address(uni):
+    """JSON copy to test on Postman
+    {
+        "description": "home",
+        "country": "USA",
+        "state": "NY",
+        "city": "NY",
+        "zip_code": "10025",
+        "street": "125W 109th St"
+    }
+    """
     data = request.json
     if StudentResource.search_student_by_uni(uni) is None:
         response = jsonify('Student does not exist!')
@@ -16,7 +26,7 @@ def add_new_address(uni):
         return response
 
     type_id = AddressResource.search_type_id(data["description"])
-    if AddressResource.search_address_by_type_id_and_uni(type_id, uni) is not None:
+    if AddressResource.search_address_by_type_id_and_uni(type_id[0], uni) is not None:
         response = jsonify('This address type already exists for this student!')
         response.status_code = 400
         return response
@@ -31,6 +41,13 @@ def add_new_address(uni):
 
 @app.route("/api/contacts/<uni>/new_phone", methods=['POST'])
 def add_new_phone(uni):
+    """JSON copy to test on Postman
+    {
+        "description": "mobile",
+        "country_code": "1",
+        "phone_no": "3476290991"
+    }
+    """
     data = request.json
 
     if StudentResource.search_student_by_uni(uni) is None:
@@ -39,7 +56,7 @@ def add_new_phone(uni):
         return response
 
     type_id = PhoneResource.search_type_id(data["description"])
-    if PhoneResource.search_phone_by_type_id_and_uni(type_id, uni) is not None:
+    if PhoneResource.search_phone_by_type_id_and_uni(type_id[0], uni) is not None:
         response = jsonify('This phone type already exists for this student!')
         response.status_code = 400
         return response
@@ -53,6 +70,12 @@ def add_new_phone(uni):
 
 @app.route("/api/contacts/<uni>/new_email", methods=['POST'])
 def add_new_email(uni):
+    """JSON copy to test on Postman
+    {
+        "description": "personal",
+        "address": "dw3013@columbia.edu"
+    }
+    """
     data = request.json
 
     if StudentResource.search_student_by_uni(uni) is None:
@@ -61,7 +84,7 @@ def add_new_email(uni):
         return response
 
     type_id = EmailResource.search_type_id(data["description"])
-    if EmailResource.search_email_by_type_id_and_uni(type_id, uni) is not None:
+    if EmailResource.search_email_by_type_id_and_uni(type_id[0], uni) is not None:
         response = jsonify('This email type already exists for this student!')
         response.status_code = 400
         return response
@@ -75,6 +98,23 @@ def add_new_email(uni):
 
 @app.route("/api/contacts/<uni>/all_addresses", methods=['GET'])
 def get_all_addresses_of_a_student(uni):
+    """response body be like
+    [
+        {
+            "address_type": "home",
+            "city": "NY",
+            "country": "USA",
+            "id": 1,
+            "state": "NY",
+            "street": "125W 109th St",
+            "uni": "dw3013",
+            "zip_code": "10025"
+        },
+        {
+           (second address)
+        }
+    ]
+    """
     addresses = AddressResource.search_all_addresses_of_a_student(uni)
 
     response = jsonify(addresses)
@@ -85,6 +125,20 @@ def get_all_addresses_of_a_student(uni):
 # Zhengkai
 @app.route("/api/contacts/<uni>/all_phones", methods=['GET'])
 def get_all_phones_of_a_student(uni):
+    """response body be like
+    [
+        {
+            "country_code": "1",
+            "id": 1,
+            "phone_no": "3476290991",
+            "phone_type": "mobile",
+            "uni": "dw3013"
+        },
+        {
+           (second phone)
+        }
+    ]
+    """
     phones = PhoneResource.search_all_phones_of_a_student(uni)
 
     response = jsonify(phones)
@@ -94,6 +148,19 @@ def get_all_phones_of_a_student(uni):
 
 @app.route("/api/contacts/<uni>/all_emails", methods=['GET'])
 def get_all_emails_of_a_student(uni):
+    """response body be like
+    [
+        {
+            "address": "dw3013@columbia.edu",
+            "email_type": "personal",
+            "id": 1,
+            "uni": "dw3013"
+        },
+        {
+           (second email)
+        }
+    ]
+    """
     emails = EmailResource.search_all_emails_of_a_student(uni)
 
     response = jsonify(emails)
@@ -103,6 +170,22 @@ def get_all_emails_of_a_student(uni):
 
 @app.route("/api/contacts/<uni>/all_contacts", methods=['GET'])
 def get_all_contacts_of_a_student(uni):
+    """response body be like
+    [
+        # all addresses
+        [
+            { (address1)},{(address2)},{(address3)}
+        ],
+        # all phones
+        [
+            { (phone1)},{(phone2)},{(phone3)}
+        ]
+        # all emails
+        [
+            { (email1)},{(email2)},{(email3)}
+        ]
+    ]
+    """
     addresses = AddressResource.search_all_addresses_of_a_student(uni)
     phones = PhoneResource.search_all_phones_of_a_student(uni)
     emails = EmailResource.search_all_emails_of_a_student(uni)
@@ -114,6 +197,11 @@ def get_all_contacts_of_a_student(uni):
 
 @app.route("/api/contacts/all_addresses", methods=['GET'])
 def get_all_addresses_of_all_students():
+    """response body be like
+    [
+        { (address1)},{(address2)},{(address3)}
+    ]
+    """
     addresses = AddressResource.search_all_address_of_all_students()
 
     response = jsonify(addresses)
@@ -124,6 +212,11 @@ def get_all_addresses_of_all_students():
 # Zhengkai
 @app.route("/api/contacts/all_phones", methods=['GET'])
 def get_all_phones_of_all_students():
+    """response body be like
+    [
+        { (phone1)},{(phone2)},{(phone3)}
+    ]
+    """
     phones = PhoneResource.search_all_phones_of_all_students()
 
     response = jsonify(phones)
@@ -133,6 +226,11 @@ def get_all_phones_of_all_students():
 
 @app.route("/api/contacts/all_emails", methods=['GET'])
 def get_all_emails_of_all_students():
+    """response body be like
+    [
+        { (email1)},{(email2)},{(email3)}
+    ]
+    """
     emails = EmailResource.search_all_email_of_all_students()
 
     response = jsonify(emails)
@@ -142,6 +240,22 @@ def get_all_emails_of_all_students():
 
 @app.route("/api/contacts/all_contacts", methods=['GET'])
 def get_all_contacts_of_all_students():
+    """response body be like
+    [
+        # all addresses
+        [
+            { (address1)},{(address2)},{(address3)}
+        ],
+        # all phones
+        [
+            { (phone1)},{(phone2)},{(phone3)}
+        ]
+        # all emails
+        [
+            { (email1)},{(email2)},{(email3)}
+        ]
+    ]
+    """
     addresses = AddressResource.search_all_address_of_all_students()
     phones = PhoneResource.search_all_phones_of_all_students()
     emails = EmailResource.search_all_email_of_all_students()
