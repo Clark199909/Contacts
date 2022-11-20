@@ -7,19 +7,19 @@ from src.resources.address_resource import AddressResource
 from src.resources.email_resource import EmailResource
 
 
-# @app.route("/api/contacts/new_student", methods=['POST'])
-# def add_new_student():
-#     data = request.json
-#     if StudentResource.search_student_by_uni(data['uni']) is not None:
-#         response = jsonify('Student already exists!')
-#         response.status_code = 400
-#         return response
-#
-#     StudentResource.add_new_student(data['uni'])
-#
-#     response = jsonify('Successfully added')
-#     response.status_code = 200
-#     return response
+@app.route("/api/contacts/new_student", methods=['POST'])
+def add_new_student():
+    data = request.json
+    if StudentResource.search_student_by_uni(data['uni']) is not None:
+        response = jsonify('Student already exists!')
+        response.status_code = 400
+        return response
+
+    StudentResource.add_new_student(data['uni'])
+
+    response = jsonify('Successfully added')
+    response.status_code = 200
+    return response
 
 
 @app.route("/api/contacts/<uni>/new_address", methods=['POST'])
