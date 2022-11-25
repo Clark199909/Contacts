@@ -3,7 +3,7 @@ from src.models.phone_type import PhoneType
 
 
 class Phone(db.Model):
-    db.__tablename__ = 'phone'
+    __tablename__ = 'phone'
 
     id = db.Column(db.Integer, primary_key=True)
     type_id = db.Column(db.Integer, db.ForeignKey('phone_type.id'), nullable=False)
