@@ -27,6 +27,30 @@ def add_new_student():
     return response
 
 
+@app.route("/api/contacts/del_student", methods=['POST'])
+def del_a_student():
+    """JSON copy to test on Postman
+    {
+        "uni": "1234567"
+    }
+    Note: all related contacts will be also deleted
+    """
+    data = request.json
+    if StudentResource.search_student_by_uni(data['uni']) is None:
+        response = jsonify('Student does not exist!')
+        response.status_code = 400
+        return response
+
+    AddressResource.del_all_addresses_of_a_student(data['uni'])
+    PhoneResource.del_all_phones_of_a_student(data['uni'])
+    EmailResource.del_all_emails_of_a_student(data['uni'])
+    StudentResource.del_a_student(data['uni'])
+
+    response = jsonify('Successfully deleted')
+    response.status_code = 200
+    return response
+
+
 @app.route("/api/contacts/<uni>/new_address", methods=['POST'])
 def add_new_address(uni):
     """JSON copy to test on Postman
@@ -55,6 +79,65 @@ def add_new_address(uni):
                                     data["street"])
 
     response = jsonify('Successfully added')
+    response.status_code = 200
+    return response
+
+
+@app.route("/api/contacts/<uni>/del_address", methods=['POST'])
+def del_an_address(uni):
+    """ JSON copy to test on Postman
+    {
+        "description": "home"
+    }
+    """
+    data = request.json
+    if StudentResource.search_student_by_uni(uni) is None:
+        response = jsonify('Student does not exist!')
+        response.status_code = 400
+        return response
+
+    type_id = AddressResource.search_type_id(data["description"])
+    if AddressResource.search_address_by_type_id_and_uni(type_id[0], uni) is None:
+        response = jsonify('This address does not exist for this student!')
+        response.status_code = 400
+        return response
+
+    AddressResource.del_an_address_by_uni_and_type(type_id[0], uni)
+
+    response = jsonify('Successfully deleted')
+    response.status_code = 200
+    return response
+
+
+@app.route("/api/contacts/<uni>/update_address", methods=['POST'])
+def update_an_address(uni):
+    """ JSON copy to test on Postman
+    {
+        "description": "home",
+        "country": "USA",
+        "state": "NY",
+        "city": "NY",
+        "zip_code": "10026",
+        "street": "125W 109th St"
+    }
+    """
+    data = request.json
+    if StudentResource.search_student_by_uni(uni) is None:
+        response = jsonify('Student does not exist!')
+        response.status_code = 400
+        return response
+
+    type_id = AddressResource.search_type_id(data["description"])
+
+    if AddressResource.search_address_by_type_id_and_uni(type_id[0], uni) is None:
+        response = jsonify('This address does not exist for this student!')
+        response.status_code = 400
+        return response
+
+    AddressResource.update_an_address_by_uni_and_type(type_id[0], uni, data["country"], data["state"], data["city"],
+                                                      data["zip_code"], data["street"])
+
+    response = jsonify('Successfully updated')
     response.status_code = 200
     return response
 
@@ -88,6 +171,61 @@ def add_new_phone(uni):
     return response
 
 
+@app.route("/api/contacts/<uni>/del_phone", methods=['POST'])
+def del_a_phone(uni):
+    """ JSON copy to test on Postman
+    {
+        "description": "mobile"
+    }
+    """
+    data = request.json
+    if StudentResource.search_student_by_uni(uni) is None:
+        response = jsonify('Student does not exist!')
+        response.status_code = 400
+        return response
+
+    type_id = PhoneResource.search_type_id(data["description"])
+    if PhoneResource.search_phone_by_type_id_and_uni(type_id[0], uni) is None:
+        response = jsonify('This phone does not exist for this student!')
+        response.status_code = 400
+        return response
+
+    PhoneResource.del_a_phone_by_uni_and_type(type_id[0], uni)
+
+    response = jsonify('Successfully deleted')
+    response.status_code = 200
+    return response
+
+
+@app.route("/api/contacts/<uni>/update_phone", methods=['POST'])
+def update_a_phone(uni):
+    """ JSON copy to test on Postman
+    {
+        "description": "mobile",
+        "country_code": "1",
+        "phone_no": "1234567890"
+    }
+    """
+    data = request.json
+    if StudentResource.search_student_by_uni(uni) is None:
+        response = jsonify('Student does not exist!')
+        response.status_code = 400
+        return response
+
+    type_id = PhoneResource.search_type_id(data["description"])
+
+    if PhoneResource.search_phone_by_type_id_and_uni(type_id[0], uni) is None:
+        response = jsonify('This phone does not exist for this student!')
+        response.status_code = 400
+        return response
+
+    PhoneResource.update_a_phone_by_uni_and_type(type_id[0], uni, data["country_code"], data["phone_no"])
+
+    response = jsonify('Successfully updated')
+    response.status_code = 200
+    return response
+
+
 @app.route("/api/contacts/<uni>/new_email", methods=['POST'])
 def add_new_email(uni):
     """JSON copy to test on Postman
@@ -112,6 +250,61 @@ def add_new_email(uni):
     EmailResource.add_new_email(type_id[0], uni, data["address"])
 
     response = jsonify('Successfully added')
+    response.status_code = 200
+    return response
+
+
+@app.route("/api/contacts/<uni>/del_email", methods=['POST'])
+def del_an_email(uni):
+    """ JSON copy to test on Postman
+    {
+        "description": "personal"
+    }
+    """
+    data = request.json
+    if StudentResource.search_student_by_uni(uni) is None:
+        response = jsonify('Student does not exist!')
+        response.status_code = 400
+        return response
+
+    type_id = EmailResource.search_type_id(data["description"])
+
+    if EmailResource.search_email_by_type_id_and_uni(type_id[0], uni) is None:
+        response = jsonify('This email does not exist for this student!')
+        response.status_code = 400
+        return response
+
+    EmailResource.del_an_email_by_uni_and_type(type_id[0], uni)
+
+    response = jsonify('Successfully deleted')
+    response.status_code = 200
+    return response
+
+
+@app.route("/api/contacts/<uni>/update_email", methods=['POST'])
+def update_an_email(uni):
+    """ JSON copy to test on Postman
+    {
+        "description": "personal",
+        "address": "12345678@columbia.edu"
+    }
+    """
+    data = request.json
+    if StudentResource.search_student_by_uni(uni) is None:
+        response = jsonify('Student does not exist!')
+        response.status_code = 400
+        return response
+
+    type_id = EmailResource.search_type_id(data["description"])
+
+    if EmailResource.search_email_by_type_id_and_uni(type_id[0], uni) is None:
+        response = jsonify('This email does not exist for this student!')
+        response.status_code = 400
+        return response
+
+    EmailResource.update_an_email_by_uni_and_type(type_id[0], uni, data['address'])
+
+    response = jsonify('Successfully updated')
     response.status_code = 200
     return response
 
