@@ -3,7 +3,7 @@ from src.models.email_type import EmailType
 
 
 class Email(db.Model):
-    db.__tablename__ = 'email'
+    __tablename__ = 'email'
 
     id = db.Column(db.Integer, primary_key=True)
     type_id = db.Column(db.Integer, db.ForeignKey('email_type.id'), nullable=False)

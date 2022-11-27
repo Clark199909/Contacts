@@ -3,7 +3,7 @@ from src.models.address_type import AddressType
 
 
 class Address(db.Model):
-    db.__tablename__ = 'address'
+    __tablename__ = 'address'
 
     id = db.Column(db.Integer, primary_key=True)
     type_id = db.Column(db.Integer, db.ForeignKey('address_type.id'), nullable=False)
