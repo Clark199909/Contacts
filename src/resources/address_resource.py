@@ -46,6 +46,26 @@ class AddressResource:
         return address_list
 
     @staticmethod
+    def del_an_address_by_uni_and_type(type_id, uni):
+        address = db.session.query(Address).filter_by(type_id=type_id, uni=uni).first()
+        db.session.delete(address)
+        db.session.commit()
+
+    @staticmethod
+    def update_an_address_by_uni_and_type(type_id, uni, country, state, city, zip_code, street):
+        address = db.session.query(Address).filter_by(type_id=type_id, uni=uni).update(
+            {'country': country, 'state': state, 'city': city, 'zip_code': zip_code, 'street': street})
+        db.session.commit()
+
+    @staticmethod
+    def del_all_addresses_of_a_student(uni):
+        student = db.session.query(Student).filter_by(uni=uni).first()
+        addresses = student.addresses
+        for address in addresses:
+            db.session.delete(address)
+            db.session.commit()
+
+    @staticmethod
     def parse_address_info(addresses, address_list):
 
         for address in addresses:

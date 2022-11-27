@@ -45,6 +45,26 @@ class PhoneResource:
         return phone_list
 
     @staticmethod
+    def del_a_phone_by_uni_and_type(type_id, uni):
+        phone = db.session.query(Phone).filter_by(type_id=type_id, uni=uni).first()
+        db.session.delete(phone)
+        db.session.commit()
+
+    @staticmethod
+    def update_a_phone_by_uni_and_type(type_id, uni, country_code, phone_no):
+        phone = db.session.query(Phone).filter_by(type_id=type_id, uni=uni).update(
+            {'country_code': country_code, 'phone_no': phone_no})
+        db.session.commit()
+
+    @staticmethod
+    def del_all_phones_of_a_student(uni):
+        student = db.session.query(Student).filter_by(uni=uni).first()
+        phones = student.phones
+        for phone in phones:
+            db.session.delete(phone)
+            db.session.commit()
+
+    @staticmethod
     def parse_phone_info(phones, phone_list):
 
         for phone in phones:
