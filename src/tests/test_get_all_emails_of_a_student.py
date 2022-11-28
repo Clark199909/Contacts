@@ -11,7 +11,7 @@ class TestGetAllEmailsOfOneStudent(unittest.TestCase):
         self.assertEqual(response.text, '{}\n')
         self.assertEqual(response.status_code, 200)
 
-    def test_student_response(self):
+    def test_response(self):
         # Given
 
         response = requests.get('http://localhost:5013/api/contacts/ab1234/all_emails')
