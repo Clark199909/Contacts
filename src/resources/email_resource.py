@@ -45,6 +45,25 @@ class EmailResource:
         return email_list
 
     @staticmethod
+    def del_an_email_by_uni_and_type(type_id, uni):
+        email = db.session.query(Email).filter_by(type_id=type_id, uni=uni).first()
+        db.session.delete(email)
+        db.session.commit()
+
+    @staticmethod
+    def update_an_email_by_uni_and_type(type_id, uni, address):
+        email = db.session.query(Email).filter_by(type_id=type_id, uni=uni).update({"address": address})
+        db.session.commit()
+
+    @staticmethod
+    def del_all_emails_of_a_student(uni):
+        student = db.session.query(Student).filter_by(uni=uni).first()
+        emails = student.emails
+        for email in emails:
+            db.session.delete(email)
+            db.session.commit()
+
+    @staticmethod
     def parse_email_info(emails, email_list):
 
         for email in emails:
