@@ -5,7 +5,7 @@ from src.models.phone import Phone
 
 
 class Student(db.Model):
-    db.__tablename__ = 'student'
+    __tablename__ = 'student'
 
     uni = db.Column(db.String(10), primary_key=True)
 
