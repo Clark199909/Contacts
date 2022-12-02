@@ -27,11 +27,11 @@ def add_new_student():
     return response
 
 
-@app.route("/api/contacts/del_student", methods=['POST'])
+@app.route("/api/contacts/del_student", methods=['DELETE'])
 def del_a_student():
     """JSON copy to test on Postman
     {
-        "uni": "1234567"
+        "uni": "12345678"
     }
     Note: all related contacts will be also deleted
     """
@@ -83,7 +83,7 @@ def add_new_address(uni):
     return response
 
 
-@app.route("/api/contacts/<uni>/del_address", methods=['POST'])
+@app.route("/api/contacts/<uni>/del_address", methods=['DELETE'])
 def del_an_address(uni):
     """ JSON copy to test on Postman
     {
@@ -109,7 +109,7 @@ def del_an_address(uni):
     return response
 
 
-@app.route("/api/contacts/<uni>/update_address", methods=['POST'])
+@app.route("/api/contacts/<uni>/update_address", methods=['PUT'])
 def update_an_address(uni):
     """ JSON copy to test on Postman
     {
@@ -171,7 +171,7 @@ def add_new_phone(uni):
     return response
 
 
-@app.route("/api/contacts/<uni>/del_phone", methods=['POST'])
+@app.route("/api/contacts/<uni>/del_phone", methods=['DELETE'])
 def del_a_phone(uni):
     """ JSON copy to test on Postman
     {
@@ -197,7 +197,7 @@ def del_a_phone(uni):
     return response
 
 
-@app.route("/api/contacts/<uni>/update_phone", methods=['POST'])
+@app.route("/api/contacts/<uni>/update_phone", methods=['PUT'])
 def update_a_phone(uni):
     """ JSON copy to test on Postman
     {
@@ -254,7 +254,7 @@ def add_new_email(uni):
     return response
 
 
-@app.route("/api/contacts/<uni>/del_email", methods=['POST'])
+@app.route("/api/contacts/<uni>/del_email", methods=['DELETE'])
 def del_an_email(uni):
     """ JSON copy to test on Postman
     {
@@ -281,7 +281,7 @@ def del_an_email(uni):
     return response
 
 
-@app.route("/api/contacts/<uni>/update_email", methods=['POST'])
+@app.route("/api/contacts/<uni>/update_email", methods=['PUT'])
 def update_an_email(uni):
     """ JSON copy to test on Postman
     {
