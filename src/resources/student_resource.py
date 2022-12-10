@@ -14,3 +14,9 @@ class StudentResource:
         student = db.session.query(Student).filter_by(uni=uni).first()
         db.session.delete(student)
         db.session.commit()
+
+    @staticmethod
+    def add_new_student(uni):
+        student = Student(uni=uni)
+        db.session.add(student)
+        db.session.commit()
