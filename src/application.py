@@ -27,24 +27,18 @@ def add_new_student():
     return response
 
 
-@app.route("/api/contacts/del_student", methods=['POST'])
-def del_a_student():
-    """JSON copy to test on Postman
-    {
-        "uni": "1234567"
-    }
-    Note: all related contacts will be also deleted
-    """
-    data = request.json
-    if StudentResource.search_student_by_uni(data['uni']) is None:
+@app.route("/api/contacts/del_student/<uni>", methods=['DELETE'])
+def del_a_student(uni):
+
+    if StudentResource.search_student_by_uni(uni) is None:
         response = jsonify('Student does not exist!')
         response.status_code = 400
         return response
 
-    AddressResource.del_all_addresses_of_a_student(data['uni'])
-    PhoneResource.del_all_phones_of_a_student(data['uni'])
-    EmailResource.del_all_emails_of_a_student(data['uni'])
-    StudentResource.del_a_student(data['uni'])
+    AddressResource.del_all_addresses_of_a_student(uni)
+    PhoneResource.del_all_phones_of_a_student(uni)
+    EmailResource.del_all_emails_of_a_student(uni)
+    StudentResource.del_a_student(uni)
 
     response = jsonify('Successfully deleted')
     response.status_code = 200
